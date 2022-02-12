@@ -27,13 +27,16 @@
 ## 3. Upload docker image to ECR
  - Once created the **ECR repository**, you should be in the repository page. Click on **"View push commands"**. Run the four commands on your machine, at the location of your Dockerfile. The commands should be:
 	 - `aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin <accountID>.dkr.ecr.<region>.amazonaws.com`, where you need to replace **\<region>** and **\<accountID>**
+	 - `docker build -t <app-name> .`, where you need to replace **\<app-name>**
+	 - `docker tag <app-name>:latest <accountID>.dkr.ecr.<region>.amazonaws.com/<app-name>:latest`, where you need to replace **\<region>**, **\<accountID>** and **\<app-name>**
+	 - `docker push <accountID>.dkr.ecr.<region>.amazonaws.com/<app-name>:latest`, where you need to replace **\<region>**, **\<accountID>** and **\<app-name>**
 
 ## 4. Create AppRunner service
 
  - In you AWS  account, go to the **AppRunner control panel**: https://console.aws.amazon.com/apprunner
  - Click on **"Create service"**
  - Paste the URI of the container image or **Browse** it
- - Under **Deployment settings**, select Automatic, the click on **"Next"**. If you don't have the appropriate role, click on **"Create new service role"**, then give it a name or leave as default. If existing, click on **"Use existing service role"** and select it. Then click on **"Next"**
+ - Under **Deployment settings**, select Automatic, then click on **"Next"**. If you don't have the appropriate role, click on **"Create new service role"**, then give it a name or leave as default. If existing, click on **"Use existing service role"** and select it. Then click on **"Next"**
  - Give the service a name (***app-be***) and eventually **add environment variables**
  - Set the desired **port** (the same specificed in the **Dockerfile**)
  - Click on **"Next"**, review the service and then click on **"Create & deploy"**
